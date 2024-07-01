@@ -38,16 +38,17 @@ GLPI_API([string]$URL, [string]$AppToken)
 #### InitSession
 Authenticate to the API with a user-token and create a session.
 ```powershell
-[pscustomobject] InitSession([string]$UserToken)
+[void] InitSession([string]$UserToken)
 ```
 **Parameters:**
 - $UserToken: User-token provided by GLPI administration.
 
 **Returns**
-- HTTP response.
+
+None.
 
 ```powershell
-[pscustomobject] InitSession([string]$UserToken, [hashtable]$Parameters)
+[void] InitSession([string]$UserToken, [hashtable]$Parameters)
 ```
 **Parameters:**
 - $UserToken: User-token provided by GLPI administration.
@@ -56,17 +57,17 @@ Authenticate to the API with a user-token and create a session.
 
 **Returns**
 
-- HTTP response.
+None.
 
 More details on this request and its parameters: [GLPI Documentation](https://github.com/glpi-project/glpi/blob/10.0/bugfixes/apirest.md#init-session).
 #### KillSession
 Ends the session.
 ```powershell
-[pscustomobject] KillSession()
+[void] KillSession()
 ```
 **Returns**
 
-HTTP response.
+None.
 
 More details on this request and its parameters: [GLPI Documentation](https://github.com/glpi-project/glpi/blob/10.0/bugfixes/apirest.md#kill-session).
 #### GetMyProfiles
@@ -92,13 +93,13 @@ More details on this request and its parameters: [GLPI Documentation](https://gi
 #### ChangeActiveProfile
 Switches to another profile.
 ```powershell
-[pscustomobject] ChangeActiveProfile($ID)
+[void] ChangeActiveProfile($ID)
 ```
 **Parameters:**
 - $ID: ID of the profile to use.
 **Returns**
 
-HTTP response.
+None.
 
 More details on this request and its parameters: [GLPI Documentation](https://github.com/glpi-project/glpi/blob/10.0/bugfixes/apirest.md#change-active-profile).
 #### GetMyEntities
@@ -134,16 +135,16 @@ More details on this request and its parameters: [GLPI Documentation](https://gi
 #### ChangeActiveEntities
 Switches to another available entity.
 ```powershell
-[pscustomobject] ChangeActiveEntities($ID)
+[void] ChangeActiveEntities($ID)
 ```
 **Parameters:**
 - $ID: ID of the entity to use.
 
 **Returns**
 
-HTTP response.
+None.
 ```powershell
-[pscustomobject] ChangeActiveEntities($ID, [hashtable]$Parameters)
+[void] ChangeActiveEntities($ID, [hashtable]$Parameters)
 ```
 **Parameters:**
 - $ID: ID of the entity to use.
@@ -152,7 +153,7 @@ HTTP response.
 
 **Returns**
 
-HTTP response.
+None.
 
 More details on this request and its parameters: [GLPI Documentation](https://github.com/glpi-project/glpi/blob/10.0/bugfixes/apirest.md#change-active-entities).
 #### GetFullSession
