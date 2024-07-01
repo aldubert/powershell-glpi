@@ -43,7 +43,7 @@ class GLPI_API {
     }
     
     # Methods
-    [pscustomobject] InitSession([string]$UserToken) {
+    [void] InitSession([string]$UserToken) {
         # Not using $this.Headers to keep it fitted for most of the requests    
         $InitHeaders = @{}
         $InitHeaders.Add("Content-Type", "application/json")
@@ -52,7 +52,6 @@ class GLPI_API {
         $response = Invoke-RestMethod `
             "$($this.URL)/initSession" -Method 'GET' -Headers $InitHeaders
         $this.Headers.Add("Session-Token", $response.session_token)
-        return $response
     }
 
     # TOFIX
@@ -68,10 +67,9 @@ class GLPI_API {
         $response = Invoke-RestMethod `
             "$($this.URL)/initSession" -Method 'GET' -Headers $InitHeaders
         $this.Headers.Add("Session-Token", $response.session_token)
-        return $response
     } #>
 
-    [pscustomobject] InitSession([string]$UserToken, [hashtable]$Parameters) {
+    [void] InitSession([string]$UserToken, [hashtable]$Parameters) {
         # Not using $this.Headers to keep it fitted for most of the requests    
         $InitHeaders = @{}
         $InitHeaders.Add("Content-Type", "application/json")
@@ -84,11 +82,10 @@ class GLPI_API {
             -Method 'GET' -Headers $InitHeaders
 
         $this.Headers.Add("Session-Token", $response.session_token)
-        return $response
     }
 
     # TOFIX
-    <# [pscustomobject] InitSession([string]$Login, [secureString]$Password, 
+    <# [void] InitSession([string]$Login, [secureString]$Password, 
     [hashtable]$Parameters) {
         # Not using $this.Headers to keep it fitted for most of the requests
         $InitHeaders = @{}
@@ -105,8 +102,8 @@ class GLPI_API {
         return $response
     } #>
 
-    [pscustomobject] KillSession() {
-        return Invoke-RestMethod `
+    [void] KillSession() {
+        Invoke-RestMethod `
             "$($this.URL)/killSession" -Method 'GET' -Headers $this.Headers
     }
 
@@ -123,10 +120,10 @@ class GLPI_API {
         return $response.active_profile
     }
 
-    [pscustomobject] ChangeActiveProfile($ID) {
+    [void] ChangeActiveProfile($ID) {
         $body = "{`"profiles_id`": $ID}"
 
-        return Invoke-RestMethod `
+        Invoke-RestMethod `
             "$($this.URL)/changeActiveProfile" `
             -Method 'POST' -Headers $this.Headers -Body $body
     }
@@ -153,20 +150,20 @@ class GLPI_API {
         return $response.active_entity
     }
 
-    [pscustomobject] ChangeActiveEntities($ID) {
+    [void] ChangeActiveEntities($ID) {
         $body = "{`"profiles_id`": $ID}"
 
-        return Invoke-RestMethod `
+        Invoke-RestMethod `
             "$($this.URL)/changeActiveEntities" `
             -Method 'POST' -Headers $this.Headers -Body $body
     }
 
-    [pscustomobject] ChangeActiveEntities($ID, [hashtable]$Parameters) {
+    [void] ChangeActiveEntities($ID, [hashtable]$Parameters) {
         $key = $Parameters.Keys[0]
         $value = $Parameters[$key].ToString()
         $body = "{`"profiles_id`": $ID, `"$key`": `"$value`"}"
 
-        return Invoke-RestMethod `
+        Invoke-RestMethod `
             "$($this.URL)/changeActiveEntities" `
             -Method 'POST' -Headers $this.Headers -Body $body
     }
@@ -330,7 +327,7 @@ class GLPI_API {
             -Method 'DELETE' -Headers $this.Headers
     }
 
-    [pscustomobject] DeleteItem([string]$ItemType, $Payload) {
+    [pscustomobject] DeleteItem([string]$ItemType, [hashtable] $Payload) {
         $JsonPayload = @{ "input" = $Payload } | ConvertTo-Json
 
         return Invoke-RestMethod `
@@ -347,7 +344,7 @@ class GLPI_API {
             -Method 'DELETE' -Headers $this.Headers
     }
 
-    [pscustomobject] DeleteItem([string]$ItemType, $Payload, 
+    [pscustomobject] DeleteItem([string]$ItemType, [hashtable] $Payload, 
     [hashtable]$Parameters) {
         $JsonPayload = @{ "input" = $Payload } | ConvertTo-Json
         $QueryString = $this.ParseParameters($Parameters)
@@ -419,7 +416,7 @@ class GLPI_API {
         $formatedArray = ""
         for ($i = 0; $i -lt $array.Count; $i++) {
             foreach ($field in $array[$i].Keys) {
-                $formatedArray += `
+                $formatedArray +=
                     "&$arrayName[$i][$field]=$($array[$i][$field])"
             }
         }
@@ -430,7 +427,6 @@ class GLPI_API {
     }
     hidden [string] ParseCriteria([array]$criteria) {
         # TODO : Nested criteria
-        return $this.ParseArray($criteria, "criteria").
-            Replace('[','\[').Replace(']','\]') # Escaping the brackets
+        return $this.ParseArray($criteria, "criteria")
     }
 }
